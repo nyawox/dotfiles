@@ -45,6 +45,13 @@ in
       }
     '';
 
+    sessionVariables = rec {
+      XMODIFIERS = "@im=fcitx";
+      XMODIFIER = "@im=fcitx";
+      GTK_IM_MODULE = "fcitx";
+      QT_IM_MODULE = "fcitx";
+    };
+
     shellAliases =
       let
         # The `security.sudo.enable` option does not exist on darwin because
@@ -92,19 +99,21 @@ in
       };
   };
 
-  fonts.fonts = with pkgs; [ powerline-fonts dejavu_fonts ];
+
+  hardware.opengl.driSupport32Bit = true;
+  hardware.xone.enable = true;
 
   nix = {
+    settings = {
+      # Prevents impurities in builds
+      sandbox = true;
+
+      # Give root user and wheel group special Nix privileges.
+      trusted-users = [ "root" "@wheel" ];
+    };
 
     # Improve nix store disk usage
     gc.automatic = true;
-
-    # Prevents impurities in builds
-    useSandbox = true;
-
-    # Give root user and wheel group special Nix privileges.
-    trustedUsers = [ "root" "@wheel" ];
-
     # Generally useful nix option defaults
     extraOptions = ''
       min-free = 536870912

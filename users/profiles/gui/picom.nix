@@ -2,13 +2,12 @@
 {
   services.picom = {
     enable = true;
-    package = pkgs.nur.repos.xeals.picom-animations;
+    package = pkgs.picom-animations;
     backend = "glx";
-    experimentalBackends = true;
     fade = true;
-    extraOptions = ''
+    settings = {
       corner-radius = 10.0;
       xrender-sync-fence = true;
-    '';
+    };
   };
 }

@@ -4,19 +4,19 @@
     settings = {
       font = {
         normal = {
-          family = "Iosevka";
+          family = "Iosevka Term Nerd Font";
           style = "Regular";
         };
         bold = {
-          family = "Iosevka";
+          family = "Iosevka Term Nerd Font";
           style = "Bold";
         };
         italic = {
-          family = "Iosevka";
+          family = "Iosevka Term Nerd Font";
           style = "Italic";
         };
         bold_italic = {
-          family = "Iosevka";
+          family = "Iosevka Term Nerd Font";
           style = "Bold Italic";
         };
         size = 8.0;

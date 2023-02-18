@@ -6,9 +6,10 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.DynamicLog
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.StatusBar.PP
-import XMonad.Hooks.ManageDocks (avoidStruts, manageDocks)
+import XMonad.Hooks.ManageDocks
 import XMonad.Layout.Spacing (spacingWithEdge)
 import XMonad.Layout.NoBorders (smartBorders)
+import XMonad.Hooks.TaffybarPagerHints (pagerHints)
 
 import qualified XMonad.StackSet as W
 import qualified Data.Map        as M
@@ -29,18 +30,27 @@ myLayout = spacingWithEdge 10 $ smartBorders $ avoidStruts (tiled ||| Mirror til
 
 myKeys =
   [ ("M-<Return>", spawn myTerminal)
-  , ("M-p", spawn myLauncher)
+  , ("M-d", spawn myLauncher)
   , ("M-S-<Return>", windows W.swapMaster)
   -- Restart xmonad without recompiling. See issue nix-community/home-manager#1895
   , ("M-q", spawn "xmonad --restart")
   , ("M-w", spawn "emacsclient -c")
   , ("M-b", spawn "qutebrowser")
+  , ("M-v", sendMessage (IncMasterN 1))
+  , ("M-z", sendMessage (IncMasterN (-1)))
+  ]
+  ++
+  [ (mask ++ "M-" ++ [key], screenWorkspace scr >>= flip whenJust (windows . action))
+       | (key, scr)  <- zip ",.'" [0,1] -- was [0..] *** change to match your screen order ***
+       , (action, mask) <- [ (W.view, "") , (W.shift, "S-")]
   ]
 
 myStartupHook :: X ()
 myStartupHook = do
-    spawnOnce "xrandr --output DVI-I-3 --scale-from 2560x1440" -- upscale to wqhd
-    spawnOnce "picom --experimental-backend"
+    -- spawnOnce "xrandr --output DVI-I-1 --primary --scale-from 2560x1440" -- upscale to wqhd
+    -- spawnOnce "xrandr --output DVI-D-0 --scale-from 2560x1440 --pos 2560x0"
+    spawnOnce "taffybar"
+    spawnOnce "picom --animations"
     spawnOnce "feh --bg-fill ~/.wallpaper"
 
 myConfig = def
@@ -54,8 +64,6 @@ myConfig = def
         , manageHook         = manageDocks <+> manageHook defaultConfig
         } `additionalKeysP` myKeys
 
-mySB = statusBarProp "xmobar" (pure xmobarPP)
-
 main :: IO ()
 main = do
-    xmonad . ewmhFullscreen . ewmh . withSB mySB $ myConfig
+    xmonad . docks . ewmhFullscreen . ewmh . pagerHints $ myConfig

@@ -2,5 +2,38 @@
 {
   home.packages = with pkgs; [
     feh
+    prismlauncher
+    steam
+    genymotion
+    steam-run
+    lutris
+    heroic
+    discord
+    tdesktop
+    samba
+    protontricks
+    unzip
+    unrar
+    lxappearance
+    dconf
+    mangohud
+    qbittorrent
+    nvme-cli
+    smartmontools
+    imagemagick
+    fd
+    ffmpegthumbnailer
+    mediainfo
+    weston
+    cabextract
+    appimage-run
+    screen
+    killall
+    libimobiledevice
+    ifuse
+    haskell-language-server
+    google-chrome
+    cemu
+    xfce.thunar
   ];
 }

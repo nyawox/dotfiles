@@ -81,8 +81,8 @@
             })
 
             nur.overlay
-            agenix.overlay
-            nvfetcher.overlay
+            agenix.overlays.default
+            nvfetcher.overlays.default
             inputs.emacs-overlay.overlay
 
             (import ./pkgs)
@@ -124,10 +124,10 @@
             importables = rec {
               profiles = digga.lib.rakeLeaves ./users/profiles;
               suites = with profiles; {
-                gui = with gui; [ programs qutebrowser alacritty emacs xmonad xmobar rofi picom ];
+                gui = with gui; [ programs gtk qutebrowser alacritty emacs xmonad bar rofi picom inputmethod ];
                 shell = with shell; [ direnv git ];
 
-                dxm = with suites; [ gui shell files fonts ];
+                dxm = with suites; [ gui shell files ];
               };
             };
           };

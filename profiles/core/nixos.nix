@@ -3,11 +3,10 @@
 {
   imports = [
     ./common.nix
+    ./fonts.nix
   ];
 
   # This is just a representation of the nix default
-  nix.systemFeatures = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
-
   environment = {
 
     # Selection of sysadmin tools that can come in handy
@@ -40,16 +39,14 @@
       };
   };
 
-  fonts.fontconfig.defaultFonts = {
-    monospace = [ "DejaVu Sans Mono for Powerline" ];
-    sansSerif = [ "DejaVu Sans" ];
-  };
-
   nix = {
-    # Improve nix store disk usage
-    autoOptimiseStore = true;
     optimise.automatic = true;
-    allowedUsers = [ "@wheel" ];
+    settings = {
+      # Improve nix store disk usage
+      auto-optimise-store = true;
+      allowed-users = [ "@wheel" ];
+      system-features = [ "nixos-test" "benchmark" "big-parallel" "kvm" ];
+    };
   };
 
   # For rage encryption, all hosts need a ssh key pair

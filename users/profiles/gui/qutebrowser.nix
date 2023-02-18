@@ -6,6 +6,7 @@
     };
     extraConfig = ''
       c.qt.args = ["enable-native-gpu-memory-buffers", "use-gl=desktop", "enable-accelerated-video-decode", "ignore-gpu-blacklist"]
+      config.source('theme.py')
     '';
   };
 }

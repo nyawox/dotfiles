@@ -2,7 +2,7 @@
 {
   programs.emacs = {
     enable = true;
-    package = pkgs.emacsPgtkNativeComp;
+    package = pkgs.emacsGit;
     extraPackages = epkgs: [
       epkgs.vterm
     ];
