@@ -35,5 +35,7 @@
     google-chrome
     cemu
     xfce.thunar
+    vscode
+    efibootmgr
   ];
 }

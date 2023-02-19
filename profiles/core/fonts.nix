@@ -1,7 +1,7 @@
 { pkgs, ... }:
 let
   nerdFonts = pkgs.nerdfonts.override {
-    fonts = [ "Iosevka" ];
+    fonts = [ "JetBrainsMono" ];
   };
 in
 {
@@ -24,7 +24,7 @@ in
     fontconfig.defaultFonts = {
       serif = [ "Source Han Serif" "Noto Serif CJK JP" ];
       sansSerif = [ "Source Han Sans" "Noto Sans CJK JP" ];
-      monospace = [ "Sarasa Mono J" "Iosevka Nerd Font" ];
+      monospace = [ "Sarasa Mono J" "JetBrains Mono Nerd Font" ];
       emoji = [ "Twitter Color Emoji" ];
     };
   };

@@ -5,7 +5,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [];
+  imports = [ ];
 
   # Bootloader.
   boot.loader.systemd-boot = {
@@ -35,6 +35,7 @@
     "rd.udev.log_level=3"
     "vt.global_cursor_default=0"
     "boot.shell_on_fail"
+    "nowatchdog"
   ];
   boot.loader.timeout = 0;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -66,23 +67,29 @@
   networking.useNetworkd = true;
   # Don't wait for network startup
   # https://old.reddit.com/r/NixOS/comments/vdz86j/how_to_remove_boot_dependency_on_network_for_a
-  systemd.targets.network-online.wantedBy = pkgs.lib.mkForce []; # Normally ["multi-user.target"]
-  systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce []; # Normally ["network-online.target"]
+  systemd.targets.network-online.wantedBy = pkgs.lib.mkForce [ ]; # Normally ["multi-user.target"]
+  systemd.services.NetworkManager-wait-online.wantedBy = pkgs.lib.mkForce [ ]; # Normally ["network-online.target"]
   systemd.services.systemd-networkd-wait-online.enable = pkgs.lib.mkForce false;
 
   fileSystems."/" =
-    { device = "/dev/disk/by-uuid/ee1462e7-2b45-4828-91cc-5b39df2cea9d";
+    {
+      device = "/dev/disk/by-uuid/ee1462e7-2b45-4828-91cc-5b39df2cea9d";
       fsType = "ext4";
     };
   boot.initrd.luks.devices."luks-56c8fa00-672d-449f-ba2c-52e8d2e002ab".device = "/dev/disk/by-uuid/56c8fa00-672d-449f-ba2c-52e8d2e002ab";
   fileSystems."/boot/efi" =
-    { device = "/dev/disk/by-uuid/BF3B-8DB4";
+    {
+      device = "/dev/disk/by-uuid/BF3B-8DB4";
       fsType = "vfat";
     };
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/56e56582-4bb3-4e12-bb44-2b6ab20a1cb6"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/56e56582-4bb3-4e12-bb44-2b6ab20a1cb6"; }];
+  services.fstrim.enable = true;
+
   hardware.cpu.amd.updateMicrocode = config.hardware.enableRedistributableFirmware;
+
+  services.fwupd.enable = true;
+  services.irqbalance.enable = true;
 
   networking.hostName = "pakipaki"; # Define your hostname.
   # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.

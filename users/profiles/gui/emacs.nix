@@ -2,7 +2,7 @@
 {
   programs.emacs = {
     enable = true;
-    package = pkgs.emacsGit;
+    package = pkgs.emacsUnstable;
     extraPackages = epkgs: [
       epkgs.vterm
     ];
